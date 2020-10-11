@@ -1,29 +1,43 @@
-import * as THREE from 'three';
+import {
+  PerspectiveCamera,
+  PointLight,
+  Scene,
+  WebGLRenderer,
+} from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 import { addDevtools } from './devtools';
+import { addLighting } from './lighting';
+import { addObjects } from './objects';
 
-let scene: THREE.Scene;
-let camera: THREE.PerspectiveCamera;
-let renderer: THREE.WebGLRenderer;
-let mesh: THREE.Mesh;
+let scene: Scene;
+let camera: PerspectiveCamera;
+let renderer: WebGLRenderer;
 let orbitControls: any;
+let pointLight: PointLight;
 
 export const initScene = (container: HTMLDivElement) => {
   const { clientHeight, clientWidth } = container;
   const aspectRatio = clientWidth / clientHeight;
-  scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(70, aspectRatio, 0.1, 100);
-  camera.position.z = 10;
+  scene = new Scene();
+  camera = new PerspectiveCamera(70, aspectRatio, 0.1, 100);
+  camera.position.set(0, 5, 10);
 
-  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer = new WebGLRenderer({ antialias: true });
   renderer.setSize(clientWidth, clientHeight);
   container.appendChild(renderer.domElement);
   
   orbitControls = new OrbitControls(camera, renderer.domElement);
 
   addDevtools(scene);
-  addChessboard(scene);
+  addObjects(scene);
+  // addLighting(scene);
+
+  pointLight = new PointLight(0xFFFFFF, 2);
+  pointLight.position.set(20,20,20);
+  pointLight.castShadow = true;
+
+  scene.add(pointLight);
 
   animate();
 }
@@ -31,18 +45,6 @@ export const initScene = (container: HTMLDivElement) => {
 export const animate = () => {
   requestAnimationFrame(animate);
   renderer.render( scene, camera );
-}
-
-const addChessboard = (scene: THREE.Scene) => {
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      const geometry = new THREE.BoxGeometry(1, 0.2, 1);
-      const material = new THREE.MeshNormalMaterial();
-      
-      mesh = new THREE.Mesh(geometry, material);
-      mesh.position.x = i*1.1 + 1;
-      mesh.position.z = j*1.1 + 1;
-      scene.add(mesh);
-    }
-  }
+  const { position: { x, y, z } } = camera;
+  pointLight.position.set(x, y, z);
 }
