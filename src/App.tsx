@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useRef } from 'react';
 
-import { initScene } from './scenes';
+import { initScene } from './three';
 
 import './App.css';
 
