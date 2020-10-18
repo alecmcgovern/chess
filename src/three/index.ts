@@ -8,7 +8,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 import { addDevtools } from './devtools';
 import { addLighting } from './lighting';
-import { addObjects } from './objects';
+import { initObjects } from './objects';
 
 let scene: Scene;
 let camera: PerspectiveCamera;
@@ -30,7 +30,7 @@ export const initScene = (container: HTMLDivElement) => {
   orbitControls = new OrbitControls(camera, renderer.domElement);
 
   addDevtools(scene);
-  addObjects(scene);
+  initObjects(scene);
   // addLighting(scene);
 
   pointLight = new PointLight(0xFFFFFF, 2);

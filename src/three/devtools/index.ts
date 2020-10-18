@@ -13,10 +13,7 @@ export const centerDot = (scene: THREE.Scene) => {
 }
 
 export const axes = (scene: THREE.Scene) => {
-  const geometryZ = new THREE.CylinderGeometry(0.01, 0.01, 100);
-  const materialZ = new THREE.MeshNormalMaterial();
-  const meshZ = new THREE.Mesh(geometryZ, materialZ);
-  // geometryZ.translate( 0, 0, 0 );
-  scene.add(meshZ);
+  const axesHelper = new THREE.AxesHelper(20);
+  scene.add(axesHelper);
 
 }
