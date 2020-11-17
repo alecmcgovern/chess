@@ -16,7 +16,7 @@ const addDirectionalLight = (scene: Scene) => {
 
 export const addPointLight = (scene: Scene) => {
   const pointLight = new PointLight(0xFFFFFF, 2);
-  pointLight.position.set(20,20,20);
+  pointLight.position.set(20,20,0);
   pointLight.castShadow = true;
 
   scene.add(pointLight);

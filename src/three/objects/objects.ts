@@ -5,6 +5,7 @@ import {
   Mesh,
   MeshLambertMaterial,
   MeshPhongMaterial,
+  MeshStandardMaterial,
   Scene,
 } from 'three';
 import { loadGLB } from '../services/loader-service'; 
@@ -31,7 +32,7 @@ export const createChessboard = () => {
     for (let j = 0; j < 8; j++) {
       const color = ( i + j ) % 2 ? 'black' : 'white';
       const geometry = new BoxGeometry(0.9, 0.2, 0.9);
-      const material = new MeshLambertMaterial({ color });
+      const material = new MeshPhongMaterial({ color });
       
       const mesh = new Mesh(geometry, material);
       mesh.position.x = i;
@@ -51,6 +52,7 @@ export const setupPieces = async () => {
   for (let i = 0; i < 8; i++) {
     const whitePawn = new Mesh(pawnGeometry, whitePhongMaterial);
     whitePawn.position.set(1, 0.5, i);
+    whitePawn.castShadow = true;
     scene.add(whitePawn);
   }
 
@@ -58,6 +60,7 @@ export const setupPieces = async () => {
   for (let i = 0; i < 8; i++) {
     const blackPawn = new Mesh(pawnGeometry, blackPhongMaterial);
     blackPawn.position.set(6, 0.5, i);
+    blackPawn.castShadow = true;
     scene.add(blackPawn);
   }
 }
