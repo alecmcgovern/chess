@@ -34,8 +34,8 @@ export const createChessboard = () => {
       const material = new MeshLambertMaterial({ color });
       
       const mesh = new Mesh(geometry, material);
-      mesh.position.x = i - 4;
-      mesh.position.z = j - 4;
+      mesh.position.x = i;
+      mesh.position.z = j;
       scene.add(mesh);
     }
   }
@@ -44,19 +44,29 @@ export const createChessboard = () => {
 export const setupPieces = async () => {
   const pawnGeometry = await getPawnGeometry();
 
-  const blackMat= new MeshPhongMaterial({ color: 'black' });
-  const whiteMat= new MeshPhongMaterial({ color: 'white' });
+  const blackPhongMaterial= new MeshPhongMaterial({ color: 'black' });
+  const whitePhongMaterial= new MeshPhongMaterial({ color: 'white' });
+  
+  // white pawns
+  for (let i = 0; i < 8; i++) {
+    const whitePawn = new Mesh(pawnGeometry, whitePhongMaterial);
+    whitePawn.position.set(1, 0.5, i);
+    scene.add(whitePawn);
+  }
 
-
-  const mesh = new Mesh(pawnGeometry, whiteMat);
-  // scene.add(mesh);
+  // black pawns
+  for (let i = 0; i < 8; i++) {
+    const blackPawn = new Mesh(pawnGeometry, blackPhongMaterial);
+    blackPawn.position.set(6, 0.5, i);
+    scene.add(blackPawn);
+  }
 }
 
 export const getPawnGeometry = async (): Promise<BufferGeometry | Geometry | undefined> => {
   try {
     const piece: GLTF | null | undefined = await loadGLB(cylinder, () => {});
     const geometry = (piece!.scene.children[2] as Mesh).geometry;
-
+    geometry.scale(0.2, 0.4, 0.2);
     return geometry!;
   } catch(error) {
     console.error(error);

@@ -21,7 +21,7 @@ export const initScene = (container: HTMLDivElement) => {
   const aspectRatio = clientWidth / clientHeight;
   scene = new Scene();
   camera = new PerspectiveCamera(70, aspectRatio, 0.1, 100);
-  camera.position.set(0, 5, 10);
+  camera.position.set(0, 8, 15);
 
   renderer = new WebGLRenderer({ antialias: true });
   renderer.setSize(clientWidth, clientHeight);
